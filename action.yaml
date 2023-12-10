@@ -28,10 +28,18 @@ runs:
         repository: Savrov/github-action-version-cleaner
 
     - name: Download artifact
-      uses: actions/download-artifact@v3
+      uses: aochmann/actions-download-artifact@1.0.0
       with:
         name: action-version-cleaner
-        path: .  # artifact will be saved in the current working directory
+        latest: true
+        path: .
+        repo: Savrov/github-action-version-cleaner
+
+#    - name: Download artifact
+#      uses: actions/download-artifact@v3
+#      with:
+#        name: action-version-cleaner
+#        path: .  # artifact will be saved in the current working directory
 
     - name: Execute artifact
       uses: gradle/gradle-build-action@v2
