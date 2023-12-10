@@ -12,7 +12,7 @@ jobs:
       packages: write
     steps:
       - name: Extract branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/:8}" >> $GITHUB_ENV
 
       - name: Checkout repository
         uses: actions/checkout@v4

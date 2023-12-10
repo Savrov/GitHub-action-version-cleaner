@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = extra["project-group"] as String
-version = extra["project-version"] as String
 
 plugins {
     kotlin("jvm") version "1.9.0"
