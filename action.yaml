@@ -26,14 +26,17 @@ runs:
       uses: actions/checkout@v4
       with:
         repository: Savrov/github-action-version-cleaner
+
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
         name: action-version-cleaner
         path: .  # artifact will be saved in the current working directory
-    - name: Run build with Gradle Wrapper
-      shell: bash
-      run: ./gradlew run
+
+    - name: Execute artifact
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: run
       env:
         GITHUB_REPOSITORY: ${{ inputs.github-repository }}
         PACKAGE_TYPE: ${{ inputs.package-type }}
