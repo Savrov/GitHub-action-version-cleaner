@@ -59,6 +59,13 @@ spotless {
 }
 
 publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = project.name
+        }
+    }
     repositories {
         maven {
             name = "GitHubPackages"
