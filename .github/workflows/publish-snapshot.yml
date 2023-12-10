@@ -16,6 +16,7 @@ jobs:
         run: |
           BRANCH_NAME=${GITHUB_REF#refs/heads/}
           VERSION=${BRANCH_NAME:8} # remove 'release/' prefix
+          echo "VERSION=$VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Checkout repository
