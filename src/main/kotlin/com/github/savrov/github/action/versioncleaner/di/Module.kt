@@ -1,5 +1,6 @@
 package com.github.savrov.github.action.versioncleaner.di
 
+import com.github.savrov.github.action.versioncleaner.data.DefaultPackageRepository
 import com.github.savrov.github.action.versioncleaner.data.DefaultRepositoryRepository
 import com.github.savrov.github.action.versioncleaner.data.DefaultVersionRepository
 import com.github.savrov.github.action.versioncleaner.data.PackageDataSource
@@ -44,7 +45,7 @@ val module = module {
     }
 
     single<PackageRepository> {
-        com.github.savrov.github.action.versioncleaner.data.DefaultPackageRepository(
+        DefaultPackageRepository(
             packageDataSource = get(),
             coroutineContext = Dispatchers.IO,
         )
