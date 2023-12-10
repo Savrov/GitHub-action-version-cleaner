@@ -12,15 +12,7 @@ jobs:
       packages: write
     steps:
       - name: Extract branch name
-        id: extract_branch
-        run: |
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          VERSION=${BRANCH_NAME:8} # remove 'release/' prefix
-          echo "VERSION=$VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: Delete previous SNAPSHOT packages
         uses: gradle/gradle-build-action@v2
@@ -28,13 +20,16 @@ jobs:
           arguments: build run
         env:
           PACKAGE_TYPE: maven
-          VERSION_TAG: ${{ env.VERSION }}-SNAPSHOT
+          VERSION_TAG: ${{ env.BRANCH_NAME }}-SNAPSHOT
           IS_VERSION_TAG_STRICT: true
           GITHUB_TOKEN: ${{ secrets.DELETE_PACKAGES_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Publish new SNAPSHOT package
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: publish -Pversion=${{ env.VERSION }}-SNAPSHOT
+          arguments: publish -Pversion=${{ env.BRANCH_NAME }}-SNAPSHOT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
