@@ -14,6 +14,9 @@ jobs:
       - name: Extract branch name
         run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Delete previous SNAPSHOT packages
         uses: gradle/gradle-build-action@v2
         with:
@@ -23,9 +26,6 @@ jobs:
           VERSION_TAG: ${{ env.BRANCH_NAME }}-SNAPSHOT
           IS_VERSION_TAG_STRICT: true
           GITHUB_TOKEN: ${{ secrets.DELETE_PACKAGES_TOKEN }}
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
       - name: Publish new SNAPSHOT package
         uses: gradle/gradle-build-action@v2
