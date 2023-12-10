@@ -36,6 +36,8 @@ jobs:
 
       - name: Publish new SNAPSHOT package
         shell: bash
-        run: ./gradlew publish -Pversion=${{ env.VERSION }}-SNAPSHOT
+        run: |
+          echo "VERSION=${{ env.VERSION }}"
+          ./gradlew publish -Pversion=${{ env.VERSION }}-SNAPSHOT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
