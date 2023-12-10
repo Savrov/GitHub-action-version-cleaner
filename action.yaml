@@ -23,27 +23,17 @@ runs:
   using: composite
   steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: Savrov/github-action-version-cleaner
+        ref: release/1.0.0
 
-    - name: Download artifact from build
-      uses: bettermarks/action-artifact-download@0.3.0
-      with:
-        repo: Savrov/github-action-version-cleaner
-        token: ${{ secrets.GITHUB_TOKEN }}
-        artifact_name: action-version-cleaner
-
-      #    - name: Download artifact
-#      uses: actions/download-artifact@v3
-#      with:
-#        name: action-version-cleaner
-#        path: .  # artifact will be saved in the current working directory
-
-    - name: Execute artifact
+    - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
-      with:
-        arguments: run
+
+    - name: Run build with Gradle Wrapper
+      shell: bash
+      run: ./gradlew run
       env:
         GITHUB_REPOSITORY: ${{ inputs.github-repository }}
         PACKAGE_TYPE: ${{ inputs.package-type }}
