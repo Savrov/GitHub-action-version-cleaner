@@ -27,15 +27,14 @@ runs:
       with:
         repository: Savrov/github-action-version-cleaner
 
-    - name: Download artifact
-      uses: aochmann/actions-download-artifact@1.0.0
+    - name: Download artifact from build
+      uses: bettermarks/action-artifact-download@0.3.0
       with:
-        name: action-version-cleaner
-        latest: true
-        path: .
         repo: Savrov/github-action-version-cleaner
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifact_name: action-version-cleaner
 
-#    - name: Download artifact
+      #    - name: Download artifact
 #      uses: actions/download-artifact@v3
 #      with:
 #        name: action-version-cleaner
