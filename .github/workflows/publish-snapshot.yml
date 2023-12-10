@@ -18,16 +18,20 @@ jobs:
           VERSION=${BRANCH_NAME:8} # remove 'release/' prefix
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Delete previous SNAPSHOT packages
-        uses: credible-team/action-version-cleaner@v1.0.0
-        with:
-          package-type: maven
-          version-tag: ${{ env.VERSION }}-SNAPSHOT
-          is-version-tag-strict: true
-          github-token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Delete previous SNAPSHOT packages
+        shell: bash
+        run: ./gradlew build run
+        env:
+          PACKAGE_TYPE: maven
+          VERSION_TAG: ${{ env.VERSION }}-SNAPSHOT
+          IS_VERSION_TAG_STRICT: true
+          GITHUB_TOKEN: ${{ secrets.DELETE_PACKAGES_TOKEN }}
 
       - name: Publish new SNAPSHOT package
         uses: gradle/gradle-build-action@v2
