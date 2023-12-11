@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = extra["project-group"] as String
-version = extra["project-version"] as String
 
 plugins {
     kotlin("jvm") version "1.9.0"
@@ -55,5 +54,30 @@ tasks.withType<Test>().configureEach {
 spotless {
     kotlin {
         ktlint("0.50.0")
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = if (project.hasProperty("version")) {
+                project.version.toString()
+            } else {
+                "SNAPSHOT"
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Savrov/github-action-version-cleaner")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
